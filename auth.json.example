@@ -1,0 +1,8 @@
+{
+    "http-basic": {
+        "git.danaflex-nano.ru": {
+            "username": "EMAIL",
+            "password": "TOKEN"
+        }
+    }
+}
