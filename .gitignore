@@ -19,3 +19,7 @@ yarn-error.log
 /.idea
 /.vscode
 /.npmrc
+*~
+*.php~
+*.vue~
+resources/js/ziggy.js
