@@ -42,6 +42,14 @@ return new class () extends Migration {
             $table->longText('exception');
             $table->timestamp('failed_at')->useCurrent();
         });
+
+        DB::statement(
+            'CREATE INDEX jobs_payload_trgm_idx ON jobs USING gin (payload gin_trgm_ops)'
+        );
+
+        DB::statement(
+            'CREATE INDEX failed_jobs_payload_trgm_idx ON failed_jobs USING gin (payload gin_trgm_ops)'
+        );
     }
 
     /**

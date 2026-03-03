@@ -2,6 +2,7 @@ import "./bootstrap";
 
 import {createApp, h} from "vue";
 import {createInertiaApp} from "@inertiajs/vue3";
+import { createPinia } from "pinia";
 import {ZiggyVue} from "ziggy-js";
 import {Ziggy} from './ziggy.js';
 import {MAIN_THEME_DARK_MODE_SELECTOR, MainLayout} from "@danaflex/layout";
@@ -22,7 +23,9 @@ createInertiaApp({
         return page;
     },
     setup({el, App, props, plugin}) {
+        const pinia = createPinia();
         const app = createApp({render: () => h(App, props)})
+            .use(pinia)
             .use(plugin)
             .use(ZiggyVue, Ziggy)
             .use(DanaflexUI, {
