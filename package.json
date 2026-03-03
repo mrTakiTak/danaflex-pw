@@ -28,6 +28,7 @@
         "@danaflex/ui": "^1.0.28",
         "@danaflex/ui-tailwind": "^1.0.4",
         "@inertiajs/vue3": "2.0",
+        "pinia": "^3.0.4",
         "primelocale": "^1.4.0",
         "vue": "^3.4.32"
     }
