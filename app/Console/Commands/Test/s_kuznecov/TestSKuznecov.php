@@ -5,6 +5,7 @@ namespace App\Console\Commands\Test\s_kuznecov;
 use App\Actions\NavSync\SyncModelDataAction;
 use App\Enums\PlaceEnum;
 use App\Models\LocalNavSync\ProductionOrder;
+use App\Models\LocalNavSync\Vocabs\Different\Cylinder;
 use Illuminate\Console\Command;
 
 class TestSKuznecov extends Command
@@ -31,7 +32,7 @@ class TestSKuznecov extends Command
 
         //SyncModelDataAction::syncFull(Cylinder::class,PlaceEnum::Zao);
         //SyncModelDataAction::syncChanges(Cylinder::class, PlaceEnum::Zao);
-        //SyncModelDataAction::syncFull(ProductionOrder::class,PlaceEnum::Zao);
-        SyncModelDataAction::syncChanges(ProductionOrder::class, PlaceEnum::Zao);
+        SyncModelDataAction::syncFull(ProductionOrder::class,PlaceEnum::Zao);
+        //SyncModelDataAction::syncChanges(ProductionOrder::class, PlaceEnum::Zao);
     }
 }

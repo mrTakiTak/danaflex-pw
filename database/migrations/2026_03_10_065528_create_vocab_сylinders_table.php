@@ -13,7 +13,7 @@ return new class extends Migration
             $table->char('timestamp',16)->nullable()->index();
 
             $table->string('place_code')->index();
-            $table->string('code')->unique();
+            $table->string('code')->index();
             $table->string('comment')->nullable();
 
             $table->unsignedInteger('circumference')->nullable()->comment('Длина окружности в мм');
@@ -21,6 +21,8 @@ return new class extends Migration
 
             $table->timestamps(6);
             $table->softDeletes(precision: 6);
+
+            $table->unique(['place_code', 'code']);
 
         });
     }
