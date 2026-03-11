@@ -2,6 +2,7 @@
 
 /***
  * Файл зарегистрирован в composer.json (autoload/files)
+ * На среде разработки после изменений делаем: composer dump-autoload
  */
 
 /**
@@ -15,4 +16,18 @@ function dd_(...$vars): void
     }
 
     dd(...$vars);
+}
+
+function arrayValueOrNull(array $dataArray, string $key): mixed
+{
+    $value = $dataArray[$key] ?? null;
+    switch ($value) {
+        case null:
+        case '':
+            return null;
+        default:
+            return $value;
+
+    }
+
 }
