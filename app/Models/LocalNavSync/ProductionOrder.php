@@ -14,6 +14,8 @@ class ProductionOrder extends LocalNavSyncBaseModel
 
     public static array $uniqueKeys = ['place_code', 'no'];
 
+    public static array $syncPlacesOnly =[];
+
     public static string $transformerClass = ProductionOrderTransformer::class;
 
 

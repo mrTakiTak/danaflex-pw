@@ -12,4 +12,6 @@ class Setting extends Model
         'value' => 'array',
     ];
 
+
+
 }

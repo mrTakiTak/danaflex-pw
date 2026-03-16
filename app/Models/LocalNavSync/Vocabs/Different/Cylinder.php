@@ -16,6 +16,10 @@ class Cylinder extends LocalNavSyncBaseModel
 
     public static array $uniqueKeys = ['place_code', 'code'];
 
+    public static array $syncPlacesOnly =[];
+
+    public static int $betweenSyncsDelaySeconds = 0;
+
     public static string $transformerClass = CylinderTransformer::class;
 
 

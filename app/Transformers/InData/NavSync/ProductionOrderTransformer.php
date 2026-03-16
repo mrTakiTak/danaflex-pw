@@ -44,7 +44,7 @@ class ProductionOrderTransformer extends BaseClassTransformer
 
     public static function transform(array $dataIn, PlaceEnum $place): array
     {
-        // dd($dataIn);
+
         $dataOut = [
             'timestamp' => bin2hex($dataIn['timestamp']),
             'status_id' => (int) $dataIn['Status'],

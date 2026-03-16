@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\DB;
 
 class SyncModelDataAction
 {
-    public static string $navSyncDeleteActionLastEntryNo = 'navSyncDeleteActionLastEntryNo';
-
     public static int $navDeletedRowsBatchCount = 100;
 
     public static function syncChanges(string $modelClass, PlaceEnum $place): void
@@ -26,10 +24,16 @@ class SyncModelDataAction
     public static function syncFull(string $modelClass, PlaceEnum $place): void
     {
 
+        $lastSyncSetting = StartSyncAllModelsJobsAction::getLastSyncSetting($place, $modelClass);
+
+        $lastSyncSetting->value = [
+            'lastSyncDateTime' => null,
+        ];
+        $lastSyncSetting->save();
+
         $modelClass::where('place_code', $place->value)->delete();
 
         $lastDeletedActionSetting = static::getLastDeletedActionSetting($modelClass, $place);
-
 
         $lastDeletedActionSetting->value = [
             'entryNo' => NavQueueDb::on("nav_$place->value")->max('Entry No_'),
@@ -38,6 +42,11 @@ class SyncModelDataAction
 
         static::syncFromCurrentTimestamp($modelClass, $place, null);
         static::syncDeletedOnly($modelClass, $place);
+
+        $lastSyncSetting->value = [
+            'lastSyncDateTime' => now(),
+        ];
+        $lastSyncSetting->save();
 
     }
 
@@ -128,8 +137,6 @@ class SyncModelDataAction
                 $queryNav->whereRaw("[timestamp] > CONVERT(varbinary(8), 0x{$lastTimestampHex})");
             }
 
-            // dd($syncSetting);
-
             if (! empty($syncSettings['navDbTableFilters'])) {
 
                 $queryNav->where($syncSettings['navDbTableFilters']);
@@ -160,15 +167,16 @@ class SyncModelDataAction
             'placeCode' => $place->value,
             'tableName' => app($modelClass)->getTable(),
         ];
-        $setting = Setting::where('name', static::$navSyncDeleteActionLastEntryNo)
+        $setting = Setting::where('name', config('local_app.nav_sync_in.setting_name_for_last_sync_delete_action.value'))
             ->where('metadata->placeCode', $metadata['placeCode'])
             ->where('metadata->tableName', $metadata['tableName'])
             ->first();
 
         if (is_null($setting)) {
             $setting = Setting::create([
-                'name' => static::$navSyncDeleteActionLastEntryNo,
+                'name' => config('local_app.nav_sync_in.setting_name_for_last_sync_delete_action.value'),
                 'metadata' => $metadata,
+                'description' => 'Последнее значение Entry No_ таблицы Nav NAV Queue до которого включительно обработаны данные об удаленных записях в Nav',
                 'value' => [
                     'entryNo' => null,
                 ],

@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Job extends Model
 {
-    public function scopePayloadContains(Builder $query, string $substring): Builder
+
+    public static function hasJobsInQueue($queueName): bool
     {
-        return $query->where('payload', 'ILIKE',"%$substring%");
+        return static::where('queue', $queueName)->exists();
     }
 }
